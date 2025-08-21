@@ -59,12 +59,11 @@ if(nota >= 90) {
 
 //4
 
-String adm;
+
 System.out.println("Digite sua senha");
-adm = scanner.next();
+String admim2 = scanner.next();
 System.out.println("\n");
-String senha = "admin";
-if(senha.equals("admin")) { 
+if(admim2.equals("admin")) { 
 	System.out.println("Acesso Permitido!");
 } else {
 	System.out.println("Acesso Negado!");
@@ -72,17 +71,51 @@ if(senha.equals("admin")) {
 
 //5
 
-String nome1;
-String nome2;
-System.out.println("Escreva um nome");
-nome1 = scanner.next();
+System.out.println("Escreva dois nomes: ");
+String nome1 = scanner.next();
 System.out.println("Escreva outro nome");
-nome2 = scanner.next();
+String nome2 = scanner.next();
 if(nome1.equals(nome2)) {
 	System.out.println("Os nomes são iguais");
 } else {
 	System.out.println("Os nomes são diferentes");
 }
+
+//6
+
+System.out.println("Qual a sua cor favorita? ");
+String cor = scanner.next();
+if(cor.equalsIgnoreCase("azul")) {
+	System.out.println("Boa escolha!");
+} else if (cor.equalsIgnoreCase("Vermelho")) {
+	System.out.println("Cor vibrante!");
+} else if (cor.equalsIgnoreCase("Verde")) {
+	System.out.println("Cor da natureza!");
+} else {
+	System.out.println("Cor não cadastrada.");
+}
+
+//7
+
+String letra;
+System.out.println("Digite uma letra");
+letra = scanner.next();
+if(letra == "a") {
+	System.out.println("É uma vogal");
+} if(letra == "e") {
+	System.out.println("É uma vogal");
+} if(letra == "i") {
+	System.out.println("É uma vogal");
+} if(letra == "o") {
+	System.out.println("É uma vogal");
+} if(letra == "u") {
+	System.out.println("É uma vogal");
+} else {
+	System.out.println("Não é vogal");
+}
+	
+
+
 
 
 
