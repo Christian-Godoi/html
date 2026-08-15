@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Controle de Peças e Fornecedores</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen" class="fixed inset-0 bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-2xl p-10 w-96">
+            <div class="text-center mb-8">
+                <div class="brand-logo" style="display: flex; align-items: center; justify-content: center; gap: 12px; font-family: 'Segoe UI', sans-serif;">
+                    <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" rx="20" fill="url(#gradiente-logo)"/>
+                        <path d="M50 30C38.95 30 30 38.95 30 50C30 61.05 38.95 70 50 70C61.05 70 70 61.05 70 50C70 38.95 61.05 30 50 30ZM50 62C43.37 62 38 56.63 38 50C38 43.37 43.37 38 50 38C56.63 38 62 43.37 62 50C62 56.63 56.63 62 50 62Z" fill="white"/>
+                        <path d="M47 22H53V28H47V22ZM47 72H53V78H47V72ZM22 47H28V53H22V47ZM72 47H78V53H72V47Z" fill="white"/>
+                        <path d="M60 58L75 73M75 73V63M75 73H65" stroke="#10B981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="gradiente-logo" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#0F172A"/>
+                                <stop offset="1" stop-color="#2563EB"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                        <span style="font-size: 20px; font-weight: 800; color: #F8FAFC; letter-spacing: -0.5px; line-height: 1;">
+                            SUPPLY<span style="color: #7DD3FC;">FLOW</span>
+                        </span>
+                        <span style="font-size: 10px; font-weight: 600; color: #CBD5E1; letter-spacing: 1.5px; margin-top: 3px;">
+                            AUTOMAÇÃO & GESTÃO
+                        </span>
+                    </div>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mt-6">Sistema de Controle</h1>
+                <p class="text-gray-600 mt-2">Peças e Fornecedores</p>
+            </div>
+
+            <form id="formLogin" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Usuário</label>
+                    <input type="text" id="inputUsuario" placeholder="Digite seu usuário" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Senha</label>
+                    <input type="password" id="inputSenha" placeholder="Digite sua senha" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all duration-300">
+                    Entrar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md border-b-4 border-blue-600 sticky top-0 z-50 hidden" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="brand-logo" style="display: flex; align-items: center; gap: 12px; font-family: 'Segoe UI', sans-serif;">
+                    <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="100" rx="20" fill="url(#gradiente-logo-nav)"/>
+                        <path d="M50 30C38.95 30 30 38.95 30 50C30 61.05 38.95 70 50 70C61.05 70 70 61.05 70 50C70 38.95 61.05 30 50 30ZM50 62C43.37 62 38 56.63 38 50C38 43.37 43.37 38 50 38C56.63 38 62 43.37 62 50C62 56.63 56.63 62 50 62Z" fill="white"/>
+                        <path d="M47 22H53V28H47V22ZM47 72H53V78H47V72ZM22 47H28V53H22V47ZM72 47H78V53H72V47Z" fill="white"/>
+                        <path d="M60 58L75 73M75 73V63M75 73H65" stroke="#10B981" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="gradiente-logo-nav" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#0F172A"/>
+                                <stop offset="1" stop-color="#2563EB"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div style="display: flex; flex-direction: column; line-height: 1;">
+                        <span style="font-size: 18px; font-weight: 800; color: #F8FAFC; letter-spacing: -0.5px;">
+                            SUPPLY<span style="color: #7DD3FC;">FLOW</span>
+                        </span>
+                        <span style="font-size: 9px; font-weight: 700; color: #94A3B8; letter-spacing: 1.3px; margin-top: 2px;">
+                            AUTOMAÇÃO & GESTÃO
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <!-- Status da Conexão -->
+                <div class="flex items-center space-x-2">
+                    <div id="statusIndicador" class="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                    <span id="statusTexto" class="text-sm text-gray-700 font-semibold">Conectado</span>
+                </div>
+
+                <!-- Menu de Navegação -->
+                <div class="flex space-x-2">
+                    <button data-tab="dashboard" class="tab-btn px-4 py-2 rounded-lg font-semibold transition-all duration-300 bg-blue-600 text-white">
+                        📊 Dashboard
+                    </button>
+                    <button data-tab="gestao" class="tab-btn px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-gray-700 hover:bg-gray-200">
+                        📋 Gestão
+                    </button>
+                    <button data-tab="admin" class="tab-btn px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-gray-700 hover:bg-gray-200">
+                        🔧 Admin
+                    </button>
+                    <button data-tab="excel" class="tab-btn px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-gray-700 hover:bg-gray-200">
+                        📊 Excel
+                    </button>
+                    <button data-tab="historico" class="tab-btn px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-gray-700 hover:bg-gray-200">
+                        📜 Histórico
+                    </button>
+                </div>
+
+                <!-- Usuário e Logout -->
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-600">
+                        👤 <span id="usuarioLogado">Admin</span>
+                    </div>
+                    <button id="btnLogout" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg font-semibold transition-all">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Container Principal -->
+    <div class="max-w-7xl mx-auto px-4 py-8" id="mainContent">
+
+        <!-- TAB 1: DASHBOARD -->
+        <div id="dashboard-tab" class="tab-content">
+            <!-- Cards de Métricas -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <!-- Card 1: Total de Peças -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                    <div class="text-gray-600 text-sm font-semibold">Total de Peças</div>
+                    <div class="text-4xl font-bold text-blue-600 mt-2" id="totalPecas">0</div>
+                </div>
+
+                <!-- Card 2: Peças Entregues -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
+                    <div class="text-gray-600 text-sm font-semibold">Peças Entregues</div>
+                    <div class="text-4xl font-bold text-green-600 mt-2" id="pecasEntregues">0</div>
+                </div>
+
+                <!-- Card 3: Peças Atrasadas -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-500">
+                    <div class="text-gray-600 text-sm font-semibold">Não Fornecidas</div>
+                    <div class="text-4xl font-bold text-red-600 mt-2" id="pecasAtrasadas">0</div>
+                </div>
+
+                <!-- Card 4: Fornecedores Notificados -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-yellow-500">
+                    <div class="text-gray-600 text-sm font-semibold">Notificados Hoje</div>
+                    <div class="text-4xl font-bold text-yellow-600 mt-2" id="notificadosHoje">0</div>
+                </div>
+            </div>
+
+            <!-- Seção de Alertas Urgentes -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+                        <span>⚠️</span>
+                        <span>Alertas Urgentes - Peças Não Fornecidas</span>
+                    </h2>
+                    <button id="notificarTodosBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 flex items-center space-x-2">
+                        <span>📧</span>
+                        <span>Notificar Todos os Pendentes</span>
+                    </button>
+                </div>
+
+                <!-- Tabela de Alertas -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-100 border-b-2 border-gray-300">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Código</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Peça</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Fornecedor</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">E-mail</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaAlertasCorpo">
+                            <tr>
+                                <td colspan="5" class="px-4 py-6 text-center text-gray-500">Carregando dados...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="mensagemAlertasVazio" class="text-center py-6 text-green-600 font-semibold hidden">
+                    ✅ Todas as peças foram fornecidas! Nenhum alerta pendente.
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: GESTÃO DE PEÇAS -->
+        <div id="gestao-tab" class="tab-content hidden">
+            <!-- Barra de Ferramentas -->
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <div class="flex flex-col md:flex-row md:items-center gap-4">
+                    <!-- Campo de Busca -->
+                    <input type="text" id="campoBusca" placeholder="🔍 Buscar por Nome, Código ou Fornecedor..." 
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    
+                    <!-- Filtro de Status -->
+                    <select id="filtroStatus" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Todos</option>
+                        <option value="Fornecida">Fornecida</option>
+                        <option value="Não fornecida">Não fornecida</option>
+                    </select>
+
+                    <!-- Botão Nova Peça -->
+                    <button id="btnNovaPeca" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 flex items-center space-x-2">
+                        <span>➕</span>
+                        <span>Nova Peça</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabela Principal -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-100 border-b-2 border-gray-300">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Código</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Nome da Peça</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Fornecedor</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">E-mail</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Status</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPecasCorpo">
+                            <tr>
+                                <td colspan="6" class="px-4 py-6 text-center text-gray-500">Carregando dados...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: ABA ADMIN -->
+        <div id="admin-tab" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Formulário Admin -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">🔧 Painel Admin</h2>
+                        
+                        <form id="formAdminProduto" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Código</label>
+                                <input type="text" id="adminCodigo" placeholder="P001" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Nome Produto</label>
+                                <input type="text" id="adminNome" placeholder="Parafuso M8" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Descrição</label>
+                                <textarea id="adminDescricao" placeholder="Descrição do produto..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="3"></textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Fornecedor</label>
+                                <input type="text" id="adminFornecedor" placeholder="Fornecedor XYZ" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">E-mail</label>
+                                <input type="email" id="adminEmail" placeholder="fornecedor@email.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                                <select id="adminStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="Não fornecida">Não fornecida</option>
+                                    <option value="Fornecida">Fornecida</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Preço</label>
+                                <input type="number" id="adminPreco" placeholder="100.00" step="0.01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div class="flex space-x-2 pt-4">
+                                <button type="submit" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition-all">
+                                    ➕ Adicionar
+                                </button>
+                                <button type="button" id="btnLimparForm" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 rounded-lg transition-all">
+                                    🔄 Limpar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Lista de Produtos Admin -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">📦 Produtos Cadastrados</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-gray-100 border-b-2 border-gray-300">
+                                    <tr>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Código</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Nome</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Fornecedor</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Preço</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaAdminProdutos">
+                                    <tr>
+                                        <td colspan="5" class="px-4 py-6 text-center text-gray-500">Nenhum produto cadastrado.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: UPLOAD E LEITURA EXCEL -->
+        <div id="excel-tab" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Upload Excel -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">📊 Upload Excel</h2>
+                        
+                        <div class="border-4 border-dashed border-blue-300 rounded-lg p-8 text-center mb-6 hover:border-blue-500 transition-colors cursor-pointer" id="dragDropArea">
+                            <div class="text-5xl mb-3">📁</div>
+                            <p class="text-gray-600 font-semibold mb-2">Arraste o arquivo Excel aqui</p>
+                            <p class="text-gray-500 text-sm mb-4">ou clique para selecionar</p>
+                            <input type="file" id="inputExcel" accept=".xlsx,.xls,.csv" class="hidden">
+                            <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-all">
+                                Selecionar Arquivo
+                            </button>
+                        </div>
+
+                        <div id="excelInfo" class="bg-gray-100 p-4 rounded-lg hidden">
+                            <p class="text-sm text-gray-700"><strong>Arquivo:</strong> <span id="nomeExcel"></span></p>
+                            <p class="text-sm text-gray-700"><strong>Linhas:</strong> <span id="totalLinhasExcel">0</span></p>
+                        </div>
+
+                        <div class="space-y-3 mt-6">
+                            <button type="button" id="btnAnalisarExcel" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition-all hidden">
+                                ✅ Analisar Excel
+                            </button>
+                            <button type="button" id="btnDispararEmails" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition-all hidden">
+                                📧 Disparar E-mails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Dados Excel -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">📋 Dados do Excel</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-gray-100 border-b-2 border-gray-300" id="theadExcel">
+                                    <tr>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Peça</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Fornecedor</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">E-mail</th>
+                                        <th class="px-4 py-3 font-semibold text-gray-700">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyExcel">
+                                    <tr>
+                                        <td colspan="4" class="px-4 py-6 text-center text-gray-500">Nenhum arquivo carregado. Envie um Excel!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: HISTÓRICO DE ALERTAS -->
+        <div id="historico-tab" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+                        <span>📊</span>
+                        <span>Histórico de Envio de E-mails</span>
+                    </h2>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-100 border-b-2 border-gray-300">
+                            <tr>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Data/Hora</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Peça</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Fornecedor</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">E-mail Destino</th>
+                                <th class="px-4 py-3 font-semibold text-gray-700">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaHistoricoCorpo">
+                            <tr>
+                                <td colspan="5" class="px-4 py-6 text-center text-gray-500">Nenhum registro de envio ainda.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4 mt-12 border-t-4 border-blue-600 hidden" id="footer">
+        <p>Última sincronização: <span id="ultimaSincronizacao">--:--</span> | Usuário: <span id="usuarioFooter">Admin</span></p>
+    </footer>
+
+    <!-- MODAL: Adicionar/Editar Peça -->
+    <div id="modalPeca" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96 max-h-96 overflow-y-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6" id="modalTitulo">Adicionar Nova Peça</h2>
+
+            <form id="formularioPeca" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Código da Peça</label>
+                    <input type="text" id="inputCodigo" placeholder="Ex: P001" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nome da Peça</label>
+                    <input type="text" id="inputNomePeca" placeholder="Ex: Parafuso M8" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Fornecedor</label>
+                    <input type="text" id="inputFornecedor" placeholder="Ex: Fornecedor XYZ" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">E-mail do Fornecedor</label>
+                    <input type="email" id="inputEmail" placeholder="Ex: fornecedor@email.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
+                    <select id="inputStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        <option value="Fornecida">Fornecida</option>
+                        <option value="Não fornecida">Não fornecida</option>
+                    </select>
+                </div>
+
+                <div class="flex space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition-all duration-300">
+                        Salvar
+                    </button>
+                    <button type="button" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 rounded-lg transition-all duration-300" id="btnFecharModal">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Confirmação de Notificação em Lote -->
+    <div id="modalConfirmacao" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Confirmação</h2>
+            <p id="mensagemConfirmacao" class="text-gray-700 mb-6">Deseja disparar e-mail de cobrança para X fornecedores com peças pendentes?</p>
+
+            <div class="flex space-x-3">
+                <button id="btnConfirmarNotificacao" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition-all duration-300">
+                    Confirmar
+                </button>
+                <button id="btnCancelarConfirmacao" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 rounded-lg transition-all duration-300">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificação -->
+    <div id="toast" class="toast hidden fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg"></div>
+
+    <!-- MODAL: Confirmação Disparar E-mails Excel -->
+    <div id="modalExcelConfirm" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-96">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">📧 Confirmar Envio</h2>
+            <p id="msgExcelConfirm" class="text-gray-700 mb-6">Deseja disparar e-mails para X fornecedores?</p>
+
+            <div class="flex space-x-3">
+                <button id="btnConfExcel" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-lg transition-all">
+                    ✅ Confirmar
+                </button>
+                <button id="btnCancelExcel" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 rounded-lg transition-all">
+                    ❌ Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

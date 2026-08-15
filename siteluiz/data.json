@@ -1,0 +1,168 @@
+{
+  "pecas": [
+    {
+      "id": 1,
+      "codigo": "P001",
+      "nome": "Parafuso M8 Inox",
+      "fornecedor": "Metalúrgica São Paulo",
+      "email": "vendas@metalsp.com.br",
+      "status": "Não fornecida",
+      "dataRequisicao": "2026-08-10",
+      "dataPrazoEntrega": "2026-08-18"
+    },
+    {
+      "id": 2,
+      "codigo": "P002",
+      "nome": "Porca M8 Galvanizada",
+      "fornecedor": "Fornecimentos Industriais LTDA",
+      "email": "pedidos@fornecimentosindustriais.com.br",
+      "status": "Fornecida",
+      "dataRequisicao": "2026-08-10",
+      "dataPrazoEntrega": "2026-08-14"
+    },
+    {
+      "id": 3,
+      "codigo": "P003",
+      "nome": "Arruela Inox DIN 127",
+      "fornecedor": "Distribuidora de Metais Brasil",
+      "email": "comercial@distribmetais.com.br",
+      "status": "Não fornecida",
+      "dataRequisicao": "2026-08-11",
+      "dataPrazoEntrega": "2026-08-17"
+    },
+    {
+      "id": 4,
+      "codigo": "P004",
+      "nome": "Rebite Pop 4.8x10",
+      "fornecedor": "Soluções em Fixação",
+      "email": "vendas@solucoesfixacao.com.br",
+      "status": "Fornecida",
+      "dataRequisicao": "2026-08-10",
+      "dataPrazoEntrega": "2026-08-15"
+    },
+    {
+      "id": 5,
+      "codigo": "P005",
+      "nome": "Parafuso Métrico M10",
+      "fornecedor": "Tech Parts Distribuição",
+      "email": "pedidos@techparts.com.br",
+      "status": "Não fornecida",
+      "dataRequisicao": "2026-08-12",
+      "dataPrazoEntrega": "2026-08-20"
+    },
+    {
+      "id": 6,
+      "codigo": "P006",
+      "nome": "Porca Autotravante",
+      "fornecedor": "Metalúrgica São Paulo",
+      "email": "vendas@metalsp.com.br",
+      "status": "Não fornecida",
+      "dataRequisicao": "2026-08-12",
+      "dataPrazoEntrega": "2026-08-19"
+    },
+    {
+      "id": 7,
+      "codigo": "P007",
+      "nome": "Arruela Pressão",
+      "fornecedor": "Distribuidora de Metais Brasil",
+      "email": "comercial@distribmetais.com.br",
+      "status": "Fornecida",
+      "dataRequisicao": "2026-08-09",
+      "dataPrazoEntrega": "2026-08-13"
+    },
+    {
+      "id": 8,
+      "codigo": "P008",
+      "nome": "Anilha de Fixação",
+      "fornecedor": "Soluções em Fixação",
+      "email": "vendas@solucoesfixacao.com.br",
+      "status": "Fornecida",
+      "dataRequisicao": "2026-08-11",
+      "dataPrazoEntrega": "2026-08-14"
+    }
+  ],
+  "fornecedores": [
+    {
+      "id": 1,
+      "nome": "Metalúrgica São Paulo",
+      "email": "vendas@metalsp.com.br",
+      "telefone": "(11) 3000-0000",
+      "endereco": "São Paulo, SP",
+      "contatoPrincipal": "João Silva"
+    },
+    {
+      "id": 2,
+      "nome": "Fornecimentos Industriais LTDA",
+      "email": "pedidos@fornecimentosindustriais.com.br",
+      "telefone": "(21) 2000-0000",
+      "endereco": "Rio de Janeiro, RJ",
+      "contatoPrincipal": "Maria Santos"
+    },
+    {
+      "id": 3,
+      "nome": "Distribuidora de Metais Brasil",
+      "email": "comercial@distribmetais.com.br",
+      "telefone": "(31) 3000-0000",
+      "endereco": "Belo Horizonte, MG",
+      "contatoPrincipal": "Carlos Oliveira"
+    },
+    {
+      "id": 4,
+      "nome": "Soluções em Fixação",
+      "email": "vendas@solucoesfixacao.com.br",
+      "telefone": "(41) 3000-0000",
+      "endereco": "Curitiba, PR",
+      "contatoPrincipal": "Ana Costa"
+    },
+    {
+      "id": 5,
+      "nome": "Tech Parts Distribuição",
+      "email": "pedidos@techparts.com.br",
+      "telefone": "(85) 3000-0000",
+      "endereco": "Fortaleza, CE",
+      "contatoPrincipal": "Roberto Martins"
+    }
+  ],
+  "configuracao": {
+    "nomeEmpresa": "Sua Empresa LTDA",
+    "logoDaEmpresa": "📦",
+    "usuarioLogado": "Administrador",
+    "webhookPowerAutomate": "https://prod-XX.westeurope.logic.azure.com/workflows/.../triggers/manual/paths/invoke",
+    "tema": {
+      "corPrimaria": "#2563eb",
+      "corSecundaria": "#10b981",
+      "corAlerta": "#ef4444"
+    },
+    "notificacoes": {
+      "habilitado": true,
+      "som": true,
+      "email": true
+    }
+  },
+  "historico": [
+    {
+      "id": 1,
+      "dataHora": "15/08/2026 10:30:15",
+      "peca": "Parafuso M8 Inox",
+      "fornecedor": "Metalúrgica São Paulo",
+      "emailDestino": "vendas@metalsp.com.br",
+      "status": "Sucesso"
+    },
+    {
+      "id": 2,
+      "dataHora": "15/08/2026 11:45:30",
+      "peca": "Arruela Inox DIN 127",
+      "fornecedor": "Distribuidora de Metais Brasil",
+      "emailDestino": "comercial@distribmetais.com.br",
+      "status": "Sucesso"
+    },
+    {
+      "id": 3,
+      "dataHora": "15/08/2026 13:15:00",
+      "peca": "Parafuso Métrico M10",
+      "fornecedor": "Tech Parts Distribuição",
+      "emailDestino": "pedidos@techparts.com.br",
+      "status": "Falha"
+    }
+  ]
+}
